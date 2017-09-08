@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.util import nest
-
+from tensorflow.contrib.rnn.python.ops import core_rnn_cell
 
 def value_x_weight(value_states, weights):
   mem_length = value_states.get_shape()[1].value
@@ -10,7 +10,7 @@ def value_x_weight(value_states, weights):
 
   def v_map(weight):
     w = tf.reshape(weight, [-1, 1, mem_length])
-    v = tf.batch_matmul(w, val_hidden)
+    v = tf.matmul(w, val_hidden)
     v = tf.reshape(v, [-1, val_size])
     return v
 
@@ -29,7 +29,7 @@ def get_cell(self, out_proj=True):
         input_keep_prob=self._dropout_keep_prob,
         output_keep_prob=self._dropout_keep_prob)
   if out_proj:
-    cell = tf.nn.rnn_cell.OutputProjectionWrapper(cell, self._num_lstm_units)
+    cell = core_rnn_cell.OutputProjectionWrapper(cell, self._num_lstm_units)
   return cell
 
 def flatten(query):
@@ -39,5 +39,5 @@ def flatten(query):
       ndims = q.get_shape().ndims
       if ndims:
         assert ndims == 2
-    query = tf.concat(1, query_list)
+    query = tf.concat(axis=1, values=query_list)
   return query

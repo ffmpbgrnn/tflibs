@@ -3,7 +3,6 @@ import numpy as np
 import tensorflow as tf
 from ltf.data_io.base_mem import DataLoader
 import math
-from ltf.datasets.VOC import voc
 from ltf.datasets.openimages import openimages
 import random
 import cPickle as pkl

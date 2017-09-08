@@ -1,12 +1,17 @@
 import tensorflow as tf
+from tensorflow.python.ops import rnn_cell_impl
+
+# pylint: disable=protected-access
+_linear = rnn_cell_impl._linear
+# pylint: enable=protected-access
 
 
 def softmax_similarity(query, M, query_size, scope=None, reuse=None):
   with tf.variable_scope(scope or 'softmax_similarity', reuse=reuse) as scope:
     attn_v = tf.get_variable("AttnV_0", [query_size])
     def state_proj(h):
-      return tf.nn.rnn_cell._linear([h], query_size, True, scope=scope)
-  query = state_proj(query)
+      return _linear([h], query_size, True)
+    query = state_proj(query)
   query4d = tf.reshape(query, [-1, 1, 1, query_size])
   batch_size = tf.shape(query)[0]
   if False:

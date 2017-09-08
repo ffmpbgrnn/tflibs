@@ -1,7 +1,11 @@
 import tensorflow as tf
 from ltf.models.memnn import memory
 from ltf.models.memnn import utils
+from tensorflow.python.ops import rnn_cell_impl
 
+# pylint: disable=protected-access
+_linear = rnn_cell_impl._linear
+# pylint: enable=protected-access
 
 def compressor(self, query):
   if not self._phase_train:
@@ -38,14 +42,14 @@ def compressor(self, query):
       tf.get_variable_scope().reuse_variables()
 
     with tf.variable_scope("read_LSTM"):
-      inp = tf.nn.rnn_cell._linear([query] + ext_key_read_outs + search_key_read_outs, self._num_lstm_units, True, scope="input_proj")
+      inp = _linear([query] + ext_key_read_outs + search_key_read_outs, self._num_lstm_units, True) # , scope="input_proj")
       read_out, read_state = read_cell(inp, read_state)
       ext_key_read_outs, read_out_weights, read_out_gates = external_key_mem.query(read_out)
       search_key_read_outs, _, search_write_gates = builtin_key_mem.query(read_out)
 
-      ext_key_read_out = tf.concat(0, ext_key_read_outs)
+      ext_key_read_out = tf.concat(axis=0, values=ext_key_read_outs)
       ext_val_read_outs = utils.value_x_weight(external_val_states, read_out_weights)
-      ext_val_read_out = tf.concat(0, ext_val_read_outs)
+      ext_val_read_out = tf.concat(axis=0, values=ext_val_read_outs)
 
     with tf.variable_scope("write_key"):
       builtin_key_mem.write(search_write_gates[0], ext_key_read_out)

@@ -6,7 +6,6 @@ import time
 import numpy as np
 from ltf.data_io import visual_fc
 from ltf.data_io import visual_fc_img
-from ltf.data_io import visual_fc_img_matching
 from ltf.data_io import visual_text
 from ltf.flags import flags
 from ltf import utils
@@ -38,7 +37,7 @@ class Expr():
     self._saver = tf.train.Saver(tf.all_variables(), max_to_keep=10000)
     if not os.path.exists(FLAGS.train_dir):
       os.makedirs(FLAGS.train_dir)
-    self._summary_writer = tf.train.SummaryWriter(
+    self._summary_writer = tf.summary.FileWriter(
       FLAGS.train_dir,
       graph=self._sess.graph)
 
@@ -48,8 +47,6 @@ class Expr():
       self._data_loader = visual_fc.VisualFC(coord)
     elif FLAGS.io_module == 'visual_fc_img':
       self._data_loader = visual_fc_img.VisualFC(coord)
-    elif FLAGS.io_module == 'visual_fc_img_matching':
-      self._data_loader = visual_fc_img_matching.VisualFC(coord)
     elif FLAGS.io_module == 'visual_text':
       self._data_loader = visual_text.VisualText(coord)
     else:

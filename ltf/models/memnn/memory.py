@@ -71,7 +71,7 @@ class Memory(object):
   def zero_memory(self, batch_size):
     ks = []
     for a in xrange(self.num_heads):
-      ks.append(tf.zeros(tf.pack([batch_size, self.key_size]),
+      ks.append(tf.zeros([batch_size, self.key_size],
                          dtype=tf.float32))
     return ks
 

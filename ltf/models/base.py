@@ -73,13 +73,13 @@ class NNModel(object):
 
     summaries = tf.get_collection(tf.GraphKeys.SUMMARIES, scope)
     for var in tf.trainable_variables():
-      summaries.append(tf.histogram_summary(
+      summaries.append(tf.summary.histogram(
         var.op.name, var))
     for grad, var in gradients:
       if grad is not None:
         summaries.append(
-            tf.histogram_summary(var.op.name + '/gradients', grad))
-    self._summary_op = tf.merge_summary(summaries)
+            tf.summary.histogram(var.op.name + '/gradients', grad))
+    self._summary_op = tf.summary.merge(summaries)
 
   def write_feat(self):
     pass
