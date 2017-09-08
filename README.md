@@ -18,4 +18,5 @@ cd /tmp && unzip mem.zip
 ./mem.sh eval /tmp/mem/few_shots/train_dir/{RUN_ID}/model.ckpt-${MODEL_ID} 1
 
 Change the `train_stage` variable to `train_5` or `train_10` to evaluate the model on 5-shot and 10-shot settings.
+You can obtain almost the same performance as reported on our paper.
 ```
