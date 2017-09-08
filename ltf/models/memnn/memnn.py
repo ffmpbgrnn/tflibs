@@ -57,7 +57,7 @@ class MemNN(NNModel):
           tf.int32, shape=[None, self._num_answer_candidates],
           name="target_labels")
 
-    self._dropout_keep_prob = 0.5
+    self._dropout_keep_prob = 0.3
     batch_norm_var_collection = 'moving_vars'
     self.batch_norm_params = {
         'is_training': self._phase_train,
@@ -195,5 +195,5 @@ class MemNN(NNModel):
         _map += 1
     _map /= scores.shape[0]
 
-    print("mAP: {0}".format(_map))
+    print("Acc: {0}".format(_map))
     print>>score_log, _map

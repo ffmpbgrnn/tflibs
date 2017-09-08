@@ -100,7 +100,7 @@ def reader(self, query, key_bank, val_bank, num_slots=0):
           mem_out, 1024,
           activation_fn=tf.nn.relu,
           scope="fc0")
-      mem_out = slim.dropout(mem_out, 0.5, is_training=self._phase_train)
+      mem_out = slim.dropout(mem_out, self._dropout_keep_prob, is_training=self._phase_train)
 
       logits = slim.fully_connected(
           mem_out, self._query_vocab_size,

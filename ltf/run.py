@@ -159,9 +159,12 @@ class Tasks(object):
         config = eval_config
         result_dir = os.path.join(config['feature_extraction_dir'], self._eval_model_id)
         for res in os.listdir(result_dir):
-          if "result" in res:
-            statinfo = os.stat(os.path.join(result_dir, res))
-            print("{0} {1}".format(res, statinfo.st_size))
+          if "score" in res:
+            rpath = os.path.join(result_dir, res)
+            with open(rpath) as fin:
+              print("{0} {1}".format(res, fin.readlines()[0].strip()))
+            # statinfo = os.stat(os.path.join(result_dir, res))
+            # print("{0} {1}".format(res, statinfo.st_size))
 
 
 if __name__ == '__main__':
