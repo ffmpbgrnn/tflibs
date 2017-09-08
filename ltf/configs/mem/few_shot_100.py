@@ -12,7 +12,7 @@ if not os.path.exists(extraction_dir):
 dataset_path = os.path.join(root_dir, 'few_shots/meta.pkl')
 visual_feature_dir = os.path.join(root_dir, 'few_shots/feats/')
 query_vocab_size = 100
-train_stage = 'train_10'
+train_stage = 'train_1'
 eval_stage = 'test'
 
 nn_task = 'memnn'
